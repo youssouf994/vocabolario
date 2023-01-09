@@ -24,13 +24,12 @@ void fill_ram()
 {
     int i = 0;
     string appoggio;
+    string stop=" *";
 
     ifstream fill("parole.txt", ios::in);
     while (getline(fill, appoggio))
     {
         voca[i].parola = appoggio;
-       
-       
         i++;
     }
     fill.close();
@@ -67,7 +66,6 @@ int return_main()//funzione che riporta l'utente al main(inutile)
 
 void scorrimento()//funzione che apre l'intero vocabolario a monitor
 {
-    string appoggio;
     int interno, i=0;
   
     for (i = 0; i < dim; i++)
@@ -87,8 +85,8 @@ void scorrimento()//funzione che apre l'intero vocabolario a monitor
 
 string ricerca()//funzione per la ricerca di una parola
 {
-    string searched, storage, storage_clean;
-    int count, i = 0, conta=0;
+    string searched, storage;
+    int count;
 
     ofstream ricerca("deep_search.txt", ios::out | ios::trunc);//apro un file vuoto per filtrare le parole
     ricerca.close();
@@ -181,11 +179,11 @@ void inserisci_definizione()
             getline(cin, definition);
             voca[i].definizione = definition;
         }
+    }
 
-        else if ((i==dim) && (word_insert != voca[i].parola))
-        {
-            cout << "Parola non presente nell'elenco" << endl;
-        }
+    if ((i == dim) && (word_insert != voca[i].parola))
+    {
+        cout << "Parola non presente nell'elenco" << endl;
     }
 
     ofstream upda_te("parole.txt", ios::out, ios::trunc);//MODIFICARE NOME FILE
@@ -193,13 +191,18 @@ void inserisci_definizione()
     for (i = 0; i < dim; i++)
     {
         upda_te << voca[i].parola<<"\t";
-        upda_te << voca[i].definizione << "%" << endl;
+        upda_te << voca[i].definizione  << endl;
     }
     upda_te.close();
 
     fill_ram();
 
     main();
+}
+
+void modifica(string da_modificare)
+{
+
 }
 
 
@@ -232,6 +235,10 @@ int main()
 
             case 3:
                 inserisci_definizione();
+                break;
+
+            case 4:
+
                 break;
 
             default:
