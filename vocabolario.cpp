@@ -171,7 +171,7 @@ void inserisci_definizione()
     cout << "Inserire la parola in cui aggiungere la definizione" << endl;
     cin >> word_insert;
 
-    for (i = 0; i < dim; i++)
+    for (i = 0; i <= dim; i++)
     {
         if (word_insert == voca[i].parola)
         {
@@ -180,6 +180,11 @@ void inserisci_definizione()
             cin.ignore();
             getline(cin, definition);
             voca[i].definizione = definition;
+        }
+
+        else if ((i==dim) && (word_insert != voca[i].parola))
+        {
+            cout << "Parola non presente nell'elenco" << endl;
         }
     }
 
@@ -191,6 +196,8 @@ void inserisci_definizione()
         upda_te << voca[i].definizione << "%" << endl;
     }
     upda_te.close();
+
+    fill_ram();
 
     main();
 }
