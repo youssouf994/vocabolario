@@ -21,32 +21,46 @@ struct vocabolario
 
 vocabolario voca[116878];
 
+void scrivi()
+{
+    int c = 0;
+
+    ofstream salva("parole.txt", ios::out | ios::trunc);
+    for (c = 0; c < dim; c++)
+    {
+        salva << voca[c].parola << endl;
+        salva << voca[c].definizione << endl;
+        if (c == dim-1)
+        {
+            salva << voca[c].parola << endl;
+            salva << voca[c].definizione;
+        }
+    }
+    salva.close();
+}
 
 void ordina_file()
 {
-    int q=0, d;
+    int d;
     string appoggio;
 
-    for (d = 0; d < dim; d++)
-    {
-        voca[d].definizione = "Nessuna definizione";
-    }
-
+    d = 0;
     ifstream leggi("parole.txt", ios::in);//apro il file in lettura
     while (getline(leggi, appoggio))//finchè posso fare la cin
     {
-        voca[q].parola = appoggio;//riempo struct parola
-        q++;
+        voca[d].parola = appoggio;//riempo struct parola
+        voca[d].definizione = "Nessuna definizione";
+        d++;
     }
     leggi.close();
 
     ofstream write("parole.txt", ios::out | ios::trunc);
     for (d = 0; d < dim; d++)
     {
-        write << voca[d].parola<<endl;
-        write << voca[d].definizione<<endl;
+        write << voca[d].parola << endl;
+        write << voca[d].definizione << endl;
 
-        if (d == dim)
+        if (d == dim-1)
         {
             write << voca[d].parola << endl;
             write << voca[d].definizione;
@@ -58,23 +72,19 @@ void ordina_file()
 void fill_ram()//funzione per riempire la struct precedentemente dichiarata
 {
 
-    int a = 0;
-    string appoggio4;
+    int a = 0, b = 0;
+    string appoggio;
 
     ifstream fill("parole.txt", ios::in);//apro il file in lettura
-    while (getline(fill, appoggio4))//finchè posso fare la cin
+    while (getline(fill, appoggio))//finchè posso fare la cin
     {
-        voca[a].parola = appoggio4;//riempo struct parola
-        
-        while (getline(fill, appoggio4))
-        {
-            voca[a].definizione = appoggio4;
-            //a++;
-        }
-        
+        voca[a].parola = appoggio;//riempo struct parola
+        voca[a].definizione = appoggio;
+        a++;
     }
-
     fill.close();
+
+    scrivi();
 }
 
 int main();
@@ -108,15 +118,14 @@ int return_main()//funzione che riporta l'utente al main(inutile)
 
 void scorrimento()//funzione che apre l'intero vocabolario a monitor
 {
-    int interno, i = 0;
+    int i = 0;
 
     for (i = 0; i < dim; i++)
     {
         cout << voca[i].parola << endl;
         cout << voca[i].definizione << endl;
     }
-    
-    cout << endl;
+
 }
 
 void ricerca()
@@ -181,10 +190,10 @@ void inserisci_definizione()
 
     for (i = 0; i < dim; i++)//inserisci al suo interno tutta la struct con le modifiche
     {
-        upda_te << voca[i].parola<<endl;
-        upda_te << voca[i].definizione<<endl;
+        upda_te << voca[i].parola << endl;
+        upda_te << voca[i].definizione << endl;
 
-        if (i == dim)
+        if (i == dim-1)
         {
             upda_te << voca[i].parola << endl;
             upda_te << voca[i].definizione;
@@ -211,7 +220,7 @@ void modifica()
         cout << "Definizione di quale parola?" << endl;
         cin >> da_modificare;//identifico la parola a cui dare la modifica
 
-        for (j = 0; j <= dim; j++)
+        for (j = 0; j < dim; j++)
         {
             if (voca[j].parola == da_modificare)//quajndo ho trovato la parola
             {
@@ -236,7 +245,7 @@ void modifica()
         cout << "Parola da modificare?" << endl;
         cin >> da_modificare;
 
-        for (j = 0; j <= dim; j++)
+        for (j = 0; j < dim; j++)
         {
             if (voca[j].parola == da_modificare)
             {
@@ -266,14 +275,15 @@ void modifica()
 int main()
 {
     int scelta;
+    char stop;
     string parola;
 
-    //fill_ram();
-    
- 
     do
     {
+        //ordina_file();
         fill_ram();
+        system("CLS");       
+        cout << endl;
         cout << "1.Scorri la lista" << endl;
         cout << "2.Cerca parola" << endl;
         cout << "3.Inserisci definizione" << endl;
@@ -283,29 +293,57 @@ int main()
 
         switch (scelta)
         {
-            case 1:
-                scorrimento();
+        case 1:
+            
+            scorrimento();
+            cout << "Tornare al menù principale? s/n" << endl;
+            cin >> stop;
+
+            switch (stop)
+            {
+            case 's':
+            case 'S':
                 break;
 
-            case 2:
-                ricerca();
-                break;
-
-            case 3:
-                inserisci_definizione();
-                break;
-
-            case 4:
-                modifica();
-                break;
-
-            case 5:
-                ordina_file();
+            case 'n':
+            case 'N':
+                while ((stop != 'n') | (stop != 'N'))
+                {
+                    cout << "Menù principale (N)" << endl;
+                    cin >> stop;
+                    Sleep(600000);
+                }
                 break;
 
             default:
                 cout << "Scelta errata" << endl;
                 break;
+
+            }
+
+            break;
+
+        case 2:
+            ricerca();
+            break;
+
+        case 3:
+            inserisci_definizione();
+            //rivi();
+            break;
+
+        case 4:
+            modifica();
+            scrivi();
+            break;
+
+        case 5:
+            ordina_file();
+            break;
+
+        default:
+            cout << "Scelta errata" << endl;
+            break;
         }
 
     } while (scelta != 0);
