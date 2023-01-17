@@ -41,50 +41,32 @@ void scrivi()
 
 void ordina_file()
 {
-    int d;
-    string appoggio;
-
-    d = 0;
-    ifstream leggi("parole.txt", ios::in);//apro il file in lettura
-    while (getline(leggi, appoggio))//finchè posso fare la cin
-    {
-        voca[d].parola = appoggio;//riempo struct parola
-        voca[d].definizione = "Nessuna definizione";
-        d++;
-    }
-    leggi.close();
+    int i;
+    string app;
 
     ofstream write("parole.txt", ios::out | ios::trunc);
-    for (d = 0; d < dim; d++)
+    for (i = 0; i < dim; i++)
     {
-        write << voca[d].parola << endl;
-        write << voca[d].definizione << endl;
-
-        if (d == dim-1)
-        {
-            write << voca[d].parola << endl;
-            write << voca[d].definizione;
-        }
+        write << voca[i].parola << endl;
+        write << "Nessuna definizione" << endl;
     }
     write.close();
 }
 
 void fill_ram()//funzione per riempire la struct precedentemente dichiarata
 {
-
-    int a = 0, b = 0;
+    int i;
     string appoggio;
 
-    ifstream fill("parole.txt", ios::in);//apro il file in lettura
-    while (getline(fill, appoggio))//finchè posso fare la cin
+    ifstream read("parole.txt", ios::in);
+    i = 0;
+    while(getline(read, appoggio))
     {
-        voca[a].parola = appoggio;//riempo struct parola
-        voca[a].definizione = appoggio;
-        a++;
+        voca[i].parola = appoggio;
+        voca[i].definizione = appoggio;
+        i++;
     }
-    fill.close();
-
-    scrivi();
+    read.close();
 }
 
 int main();
@@ -131,7 +113,7 @@ void scorrimento()//funzione che apre l'intero vocabolario a monitor
 void ricerca()
 {
     int x = 0, y = dim - 1, i, pos = -1;
-    string temp, searched;
+    string searched;
 
     cout << "Inserire la parola da cercare" << endl;
     cin >> searched;
@@ -179,12 +161,14 @@ void inserisci_definizione()
             getline(cin, definition);//l'utente ne inserisce la definizione
             voca[i].definizione = definition;//la definizione finiscce nella struct
         }
+
+        else if ((i == dim - 1) && (word_insert != voca[i].parola))//se l'indice è al massimo e la parola inserita non è stata trovata
+        {
+            cout << "Parola non presente nell'elenco" << endl;//errore
+        }
     }
 
-    if ((i == dim) && (word_insert != voca[i].parola))//se l'indice è al massimo e la parola inserita non è stata trovata
-    {
-        cout << "Parola non presente nell'elenco" << endl;//errore
-    }
+
 
     ofstream upda_te("parole.txt", ios::out | ios::trunc);//apri file in scrittura
 
@@ -278,10 +262,14 @@ int main()
     char stop;
     string parola;
 
+
     do
     {
         //ordina_file();
-        fill_ram();
+
+            fill_ram();
+        
+        
         system("CLS");       
         cout << endl;
         cout << "1.Scorri la lista" << endl;
