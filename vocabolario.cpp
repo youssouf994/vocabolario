@@ -30,7 +30,7 @@ void scrivi()
     {
         salva << voca[c].parola << endl;
         salva << voca[c].definizione << endl;
-        if (c == dim-1)
+        if (c == dim - 1)
         {
             salva << voca[c].parola << endl;
             salva << voca[c].definizione;
@@ -42,7 +42,6 @@ void scrivi()
 void ordina_file()
 {
     int i;
-    string app;
 
     ofstream write("parole.txt", ios::out | ios::trunc);
     for (i = 0; i < dim; i++)
@@ -60,7 +59,7 @@ void fill_ram()//funzione per riempire la struct precedentemente dichiarata
 
     ifstream read("parole.txt", ios::in);
     i = 0;
-    while(getline(read, appoggio))
+    while (getline(read, appoggio))
     {
         voca[i].parola = appoggio;
         voca[i].definizione = appoggio;
@@ -177,7 +176,7 @@ void inserisci_definizione()
         upda_te << voca[i].parola << endl;
         upda_te << voca[i].definizione << endl;
 
-        if (i == dim-1)
+        if (i == dim - 1)
         {
             upda_te << voca[i].parola << endl;
             upda_te << voca[i].definizione;
@@ -265,13 +264,9 @@ int main()
 
     do
     {
-        //ordina_file();
-
-            fill_ram();
-        
-        
-        system("CLS");       
+        system("CLS");
         cout << endl;
+        fill_ram();
         cout << "1.Scorri la lista" << endl;
         cout << "2.Cerca parola" << endl;
         cout << "3.Inserisci definizione" << endl;
@@ -282,7 +277,7 @@ int main()
         switch (scelta)
         {
         case 1:
-            
+
             scorrimento();
             cout << "Tornare al menù principale? s/n" << endl;
             cin >> stop;
