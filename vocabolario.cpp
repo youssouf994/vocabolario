@@ -42,28 +42,60 @@ void scrivi()
 void ordina_file()
 {
     int i;
+    string appoggio;
 
+    i = 0;
+    ifstream read("parole.txt", ios::in);
+    while (getline(read, appoggio))
+    {
+        voca[i].parola = appoggio;
+        i++;
+    }
+    read.close();
+
+    i = 0;
     ofstream write("parole.txt", ios::out | ios::trunc);
     for (i = 0; i < dim; i++)
     {
         write << voca[i].parola << endl;
         write << "Nessuna definizione" << endl;
+
+        if (i == dim - 1)
+        {
+            write << voca[i].parola << endl;
+            write << "Nessuna definizione";
+        }
     }
     write.close();
 }
 
 void fill_ram()//funzione per riempire la struct precedentemente dichiarata
 {
-    int i;
+    int i, x;
     string appoggio;
 
     ifstream read("parole.txt", ios::in);
     i = 0;
-    while (getline(read, appoggio))
+    x = 0;
+    while (i < dim)
     {
-        voca[i].parola = appoggio;
-        voca[i].definizione = appoggio;
-        i++;
+        getline(read, appoggio);
+        if (x % 2 == 0)
+        {
+            voca[i].parola = appoggio;
+            x++;
+        }
+
+        else
+        {
+            voca[i].definizione = appoggio;
+            x++;
+        }
+
+        if ((x > 0) && (x % 2 == 0))
+        {
+            i++;
+        }
     }
     read.close();
 }
@@ -140,6 +172,8 @@ void ricerca()
     cout << "La parola cercata è: " << voca[i].parola << endl;
     cout << "La definizione presente in archivio è: " << voca[i].definizione << endl;
 
+    Sleep(9000);
+
 }
 
 void inserisci_definizione()
@@ -160,11 +194,11 @@ void inserisci_definizione()
             getline(cin, definition);//l'utente ne inserisce la definizione
             voca[i].definizione = definition;//la definizione finiscce nella struct
         }
+    }
 
-        else if ((i == dim - 1) && (word_insert != voca[i].parola))//se l'indice è al massimo e la parola inserita non è stata trovata
-        {
-            cout << "Parola non presente nell'elenco" << endl;//errore
-        }
+    if ((i == dim - 1) && (word_insert != voca[i].parola))//se l'indice è al massimo e la parola inserita non è stata trovata
+    {
+        cout << "Parola non presente nell'elenco" << endl;//errore
     }
 
 
@@ -261,9 +295,9 @@ int main()
     char stop;
     string parola;
 
-
     do
     {
+        //ordina_file();
         system("CLS");
         cout << endl;
         fill_ram();
@@ -293,8 +327,8 @@ int main()
                 while ((stop != 'n') | (stop != 'N'))
                 {
                     cout << "Menù principale (N)" << endl;
-                    cin >> stop;
                     Sleep(600000);
+                    cin >> stop;
                 }
                 break;
 
