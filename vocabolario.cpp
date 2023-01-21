@@ -172,7 +172,7 @@ void ricerca()
     cout << "La parola cercata è: " << voca[i].parola << endl;
     cout << "La definizione presente in archivio è: " << voca[i].definizione << endl;
 
-    Sleep(9000);
+    Sleep(8000);
 
 }
 
@@ -232,60 +232,61 @@ void modifica()
     switch (scelta)//scelta utente
     {
 
-    case 'd':
-    case 'D':
-        cout << "Definizione di quale parola?" << endl;
-        cin >> da_modificare;//identifico la parola a cui dare la modifica
+        case 'd':
+        case 'D':
+            cout << "Definizione di quale parola?" << endl;
+            cin >> da_modificare;//identifico la parola a cui dare la modifica
 
-        for (j = 0; j < dim; j++)
-        {
-            if (voca[j].parola == da_modificare)//quajndo ho trovato la parola
+            for (j = 0; j < dim; j++)
             {
-                cout << "vecchia definizione di: " << voca[j].parola << endl;
-                cout << voca[j].definizione;//faccio vedere all'utente i dati vecchi
-                Sleep(1500);
-                cout << "inserire nuova definizione di: " << voca[j].parola << endl;
-                cin.ignore();//utente inserisce dati nuovi
-                getline(cin, modificata);
-                voca[j].definizione = modificata;
-                cout << voca[j].parola << endl << voca[j].definizione;
-
-                Sleep(3000);
-                main();
+                if (voca[j].parola == da_modificare)//quajndo ho trovato la parola
+                {
+                    cout << "vecchia definizione di: " << voca[j].parola << endl;
+                    cout << voca[j].definizione;//faccio vedere all'utente i dati vecchi
+                    Sleep(1500);
+                    cout << "inserire nuova definizione di: " << voca[j].parola << endl;
+                    cin.ignore();//utente inserisce dati nuovi
+                    getline(cin, modificata);
+                    voca[j].definizione = modificata;
+                    cout << voca[j].parola << endl << voca[j].definizione;
+                    scrivi();
+                    Sleep(3000);
+                    main();
+                }
             }
-        }
 
-        break;
+            break;
 
-    case 'p':
-    case 'P'://uguale al case d ma per le parole
-        cout << "Parola da modificare?" << endl;
-        cin >> da_modificare;
+        case 'p':
+        case 'P'://uguale al case d ma per le parole
+            cout << "Parola da modificare?" << endl;
+            cin >> da_modificare;
 
-        for (j = 0; j < dim; j++)
-        {
-            if (voca[j].parola == da_modificare)
+            for (j = 0; j < dim; j++)
             {
-                cout << "modifica: " << voca[j].parola << endl;
-                Sleep(1500);
-                cout << "inserire nuova parola: " << endl;
-                cin >> modificata;
-                voca[j].parola = modificata;
-                cout << voca[j].parola << endl << voca[j].definizione;
-
-                Sleep(3000);
-                main();
+                if (voca[j].parola == da_modificare)
+                {
+                    cout << "modifica: " << voca[j].parola << endl;
+                    Sleep(1500);
+                    cout << "inserire nuova parola: " << endl;
+                    cin >> modificata;
+                    voca[j].parola = modificata;
+                    cout << voca[j].parola << endl << voca[j].definizione;
+                    scrivi();
+                    Sleep(3000);
+                    main();
+                }
             }
-        }
 
-        break;
+            break;
 
-    default:
-        char err = 7;
-        cout << err;
-        cout << err << "Scelta non consentita" << endl;
-        break;
+        default:
+            char err = 7;
+            cout << err;
+            cout << err << "Scelta non consentita" << endl;
+            break;
     }
+
 }
 
 
@@ -306,6 +307,7 @@ int main()
         cout << "3.Inserisci definizione" << endl;
         cout << "4.Modifica" << endl;
         cout << "5.Aggiorna file vocabolario" << endl;
+        cout << "6.Chiudi" << endl;
         cin >> scelta;
 
         switch (scelta)
@@ -351,11 +353,14 @@ int main()
 
         case 4:
             modifica();
-            scrivi();
+            //scrivi();
             break;
 
         case 5:
             ordina_file();
+            break;
+
+        case 6:
             break;
 
         default:
@@ -363,7 +368,7 @@ int main()
             break;
         }
 
-    } while (scelta != 0);
+    } while (scelta != 6);
 
 
     return 0;
